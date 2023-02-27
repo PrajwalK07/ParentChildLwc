@@ -1,0 +1,130 @@
+<template>
+    <div if:false={isLoaded} class="slds-is-relative">
+        <lightning-spinner
+            alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+    </div>
+    <lightning-card title="Create Data">
+
+        <lightning-layout>
+            <lightning-layout-item size="6" class="slds-p-around_medium ">
+                <lightning-input name={fieldNamesParent.Name}  class="slds-p-around_small" label="Full name" placeholder="Full name" required onchange={onParentFieldChangeHandler}></lightning-input>
+    
+                <lightning-input name={fieldNamesParent.Email} class="slds-p-around_small" type="email" label="Email" onchange={onParentFieldChangeHandler}> </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" class="slds-p-around_medium ">
+                <lightning-input name={fieldNamesParent.DOB} class="slds-p-around_small " type="date" label="Date of Birth" onchange={onParentFieldChangeHandler}> </lightning-input>
+                <lightning-input name={fieldNamesParent.Phone} class="slds-p-around_small" label="Phone" placeholder="Phone" type="text" variant="standard" onchange={onParentFieldChangeHandler}></lightning-input>
+            </lightning-layout-item>
+    
+    
+        </lightning-layout>
+
+        <!--Child-->
+
+        
+        <template if:true={ShowchildFields}>
+            <h3>Enter Child Data</h3>
+            <lightning-layout>
+                <lightning-layout-item size="12">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <lightning-input class="slds-p-around_small  childField" name={fieldNamesChild.Name} data-id="reset" label="Full Name" type="text" onchange={onChildFieldChangeHandler}></lightning-input>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-input class="slds-p-around_small childField" name={fieldNamesChild.Email} data-id="reset" label="Email id" type="email" onchange={onChildFieldChangeHandler}> </lightning-input>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-input class="slds-p-around_small childField" name={fieldNamesChild.DOB} data-id="reset" label="Date of Birth" type="date" onchange={onChildFieldChangeHandler}></lightning-input>
+                        </div>
+    
+                    </div>                                 
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+        <!--Child  end-->
+
+
+        <!--button on child-->
+        <div class="slds-align_absolute-center slds-p-bottom_large">
+            <template if:false={ShowchildFields}>
+                <lightning-button label="Please Click here to ADD Child" onclick={ShowChildFieldClick}></lightning-button>
+            </template>
+            
+            <template if:true={ShowchildFields}>
+                <lightning-button label="ADD Child" onclick={AddButtonClick}></lightning-button>
+            </template>
+            
+            <template if:true={ShowDoneButton}>
+                <lightning-button label="Done" onclick={AddButtonClickDone}></lightning-button>
+            </template>
+            
+        </div>
+
+        <!--button on child end-->
+
+        <lightning-card title="CHilds List to Insert">
+            <lightning-layout>
+                <lightning-layout-item size="12">
+                    <template if:true={Childs}>
+                        <table class="slds-table slds-table_bordered slds-border_left slds-border_right">
+                            <thead>
+                              <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                  <div class="slds-truncate" title="Name">Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                  <div class="slds-truncate" title="Email">Email ID</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Date of Birth">Date of Birth</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Action">Action</div>
+                                </th>
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={Childs} for:item="itm">
+                                    <tr key={itm.Name}>
+                                        <td data-label="Some Custom Column" >
+                                            <div class="slds-truncate">{itm.Name}</div>
+                                        </td>
+                                        
+                                        <td data-label="Some Custom Column" >
+                                            <div class="slds-truncate">{itm.Child_Mail__c}</div>
+                                        </td>
+                                        <td data-label="Some Custom Column" >
+                                            <div class="slds-truncate">{itm.Date_of_Birth__c}</div>
+                                        </td>
+                                        <td data-label="Some Custom Column" >
+                                            <div class="slds-truncate">
+                                                <lightning-button variant="destructive" label="Delete" title="Destructive action" onclick={deleteButtonClicked} class="slds-m-left_x-small" value={itm.rowNo}></lightning-button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                </template>
+                                
+                            </tbody>
+                          </table>
+                     </template>
+                    
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+
+
+        <div class="slds-align_absolute-center">
+            <lightning-button class="slds-p-right_medium " label="Save" onclick={SaveClick} ></lightning-button>
+            <lightning-button class="slds-p-left_medium " label="Cancle" onclick={CancelClick} ></lightning-button>
+
+        </div>
+            
+    
+
+    </lightning-card>
+    
+
+</template>
